@@ -24,6 +24,7 @@ Examples are available in examples/ (easy demos starts with `easy_`)
 * Implement counters and date
 * Finish implementing the special functions
 * Create abstraction classes for special functions (time/date, counters, memory config, buzzer, sequence and timetables, hardware functions...)
+* Find out bugs with nested commands (doesn't work at all?) and pictures in slot other than A (doesn't config and/or display)
 
 ## Notes
 

@@ -14,11 +14,15 @@ class Image:
         (255, 255, 0): "8"  # Yellow
     }
 
-    def __init__(self, path):
-        self.orig = pimg.open(path).convert('RGB')
+    def __init__(self, img, compress=False):
+        if isinstance(img, str): # Parameter is path to image, open it in PIL
+            self.orig = pimg.open(img).convert('RGB')
+        else: # Parameter is PIL image, use it directly
+            self.orig = img
         self.width = self.orig.width
         self.height = self.orig.height
         self.conv = self.img_convert(self.orig)
+        self.compress = compress
 
     def img_convert(self, img):
         # Final converted image
