@@ -17,7 +17,6 @@ class Sign(metaclass=Singleton):
     # Open serial or usb port
     def open(self, port=None, **kwargs):
         if self.connection == 'serial':
-            print(f"Opening port {port} with baudrate {self.default_baudrate}")
             self._ser = serial.Serial(port, self.default_baudrate, timeout=1)
         else:
             print("ERROR: no connection type?!?")
@@ -30,7 +29,6 @@ class Sign(metaclass=Singleton):
 
     # Actually sends data
     def write(self, data):
-        print(f"sending {data}")
         if self.connection == 'serial' and self._ser:
             self._ser.write(data)
         else:
