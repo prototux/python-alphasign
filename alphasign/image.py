@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image as pimg
 import math
 
 class Image:
@@ -15,7 +15,7 @@ class Image:
     }
 
     def __init__(self, path):
-        self.orig = Image.open(picture).convert('RGB')
+        self.orig = pimg.open(path).convert('RGB')
         self.width = self.orig.width
         self.height = self.orig.height
         self.conv = self.img_convert(self.orig)
@@ -42,4 +42,3 @@ class Image:
 
     def to_bytes(self):
         return self.conv
-

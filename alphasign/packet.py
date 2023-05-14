@@ -1,11 +1,14 @@
-
 # Implements the "Standard Transmission Packet" aka "1-byte"/"^A"
 # This doesn't implement the multiple type code and address (no use for it)
 class Packet:
     def __init__(self, type="Z", address="00"):
         # Type and address of sign(s) to target
-        self.type = type.encode()
-        self.addr = address.encode()
+        if not type and address:
+            self.type = Sign().type_byte.encode()
+            self.addr = Sign().address.encode()
+        else:
+            self.type = type.encode()
+            self.addr = address.encode()
 
         # Commands within that packet
         self.commands = []

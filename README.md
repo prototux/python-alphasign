@@ -2,21 +2,29 @@
 
 ## What is it
 
-This is a python library that implements the "Alpha® Sign Communications Protocol" as defined [On alphasign website](https://alpha-american.com/p-alpha-communications-protocol.html).
-
-This currently only supports the Alpha 1.0 (EZ95) protocol, as I don't own any device with the Alpha 2.0 and 3.0 protocols, nor any device with the EZKEY II protocol.
+This is a python 3 library that implements the "Alpha® Sign Communications Protocol" as defined [On alphasign website](https://alpha-american.com/p-alpha-communications-protocol.html).
 
 This was tested on an Alpha 210C sign, and should works with other signs (like the BetaBrite) as well.
 
-## Quickstart guide
+Documentation is available in the `docs/` dir
 
-TODO
+## Quickstart/Easy guide
 
-## Notes/Unsupported features
+python-alphasign implements so-called Easy classes, which enables easy functions to send text, show images and other functions easily.
+
+Examples are available in examples/ (easy demos starts with `easy_`)
+
+## TODO
+
+* Implement proper text parsing for special chars and modifiers
+* Implement features checks (for alpha 2.0 and 3.0 protocols, and sign-specific features)
+* Implement LARGE DOTS, RGB DOTS and ALPHAVISION BULLETIN commands
+* Implement image compression
+* Implement read functions
+* Implement counters and date
+* Fix bug where first image sent isn't shown (it works when image is "created" manually, even if no such thing exists in the documentation)
+
+## Notes
 
 * The "ASCII PRINTABLE" formats (2 and 3 bytes) aren't used because we can raw bytes
 * * This mode was designed for POCSAG pagers, which can't send bytes < 0x20
-* The LARGE DOTS, RGB DOTS and ALPHAVISION BULLETIN aren't supported (my sign doesn't support these)
-* The Alpha 2.0 and 3.0 protocols aren't supported as well for the same reasons
-* Nesting isn't supported yet, this may change in the future
-* * Nesting allows sending multiple commands in one packet, this removes a 8 bytes overhead when sending successive packets
