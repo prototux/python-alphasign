@@ -61,8 +61,92 @@ class Text:
     @staticmethod
     def _date(type):
         types = {
-            "mmddyy": "\x0B0",
+            "mm/dd/yy":     "\x0B0",
+            "dd/mm/yy":     "\x0B1",
+            "mm-dd-yy":     "\x0B2",
+            "dd-mm-yy":     "\x0B3",
+            "mm.dd.yy":     "\x0B4",
+            "dd.mm.yy":     "\x0B5",
+            "mm dd yy":     "\x0B6",
+            "dd mm yy":     "\x0B7",
+            "mmm.dd.yyyy":  "\x0B8",
+            "dow":          "\x0B9",
         }
+        return types.get(type, "dd/mm/yy")
+
+    @staticmethod
+    def _speed_control(speed):
+        pass
+
+    @staticmethod
+    def _string(str):
+        return "\x10"+str
+
+    @staticmethod
+    def _picture(picture):
+        return "\x14"+str
+
+    @staticmethod
+    def _speed(speed):
+        speeds = ["\x15", "\x16", "\x17", "\x18", "\x19"]
+        return speeds[speed-1]
+
+    @staticmethod
+    def _font(font):
+        fonts = {
+            "5h-std": "\x1A\x31",
+            "5-slim": "\x1A\x31",
+            "5-stroke": "\x1A\x32",
+            "7h-std": "\x1A\x33",
+            "7-slim": "\x1A\x33",
+            "7-stroke": "\x1A\x34",
+            "7h-fancy": "\x1A\x35",
+            "7-slimfancy": "\x1A\x35",
+            "10h-std": "\x1A\x36",
+            "7-strokefancy": "\x1A\x36",
+            "7-shadow": "\x1A\x37",
+            "fh-fancy": "\x1A\x38",
+            "ws7-fancy": "\x1A\x38",
+            "fh-std": "\x1A\x39",
+            "ws7": "\x1A\x39",
+            "7-shadowfancy":"\x1A\x3A",
+            "5-wide": "\x1A\x3B",
+            "7-wide": "\x1A\x3C",
+            "7-fancywide": "\x1A\x3D",
+            "ws5": "\x1A\3E",
+            "5h-custom": "\x1A\x57",
+            "7h-custom": "\x1A\x58",
+            "10h-custom": "\x1A\x59",
+            "15h-custom": "\x1A\x5A",
+
+        }
+        return fonts.get(font, "\x1A\x31")
+
+    @staticmethod
+    def _attr(attr, enabled):
+        attrs = {
+            "wide": "\x1D\x30",
+            "dwide": "\x1D\x31",
+            "dhigh": "\x1D\x32",
+            "td": "\x1D\x33",
+            "fw": "\x1D\x34",
+            "fancy": "\x1D\x35",
+            "aux": "\x1D\x36",
+            "shadow": "\x1D\x37"
+        }
+        status = "1" if enabled else "0"
+        return attrs.get(attr, "\x1D\x30") + status
+
+    @staticmethod
+    def _anim(type, file, time):
+        types = { "quick": "\x43", "faster": "\x47", "dots": "\x4C" }
+        fname = "\x20" * (9-len(file)) + file
+        return "\x1F" + types.get(type, "\x4C") + fname + f"{time:04X}"
+
+    @staticmethod
+    def _counter(counter):
+        counters = [ "\x7A", "\x7B", "\x7C", "\x7D", "\x7E" ]
+        return "\x08" + counters[counter-1]
 
     # Text control codes
     ctrl = {
@@ -92,10 +176,10 @@ class Text:
         "nl": "\x0D",
 
         # Speed control (alpha 2.0 only)
-        ## TODO
+        "speedctrl": _speed_control,
 
         # String/variable
-        ## TODO
+        "str": _string,
 
         # Wide chars
         "wide": "\x11",
@@ -105,13 +189,13 @@ class Text:
         "time": "\x13",
 
         # Picture
-        ## TODO
+        "picture": _picture,
 
         # Speed
-        ## TODO
+        "speed": _speed,
 
         # Font
-        ## TODO
+        "font": _font,
 
         # Colors
         "red": "\x1C1",
@@ -129,14 +213,17 @@ class Text:
         ## RGB TODO
 
         # Attribute
-        ## TODO
+        "attr": _attr,
 
         # Spacing
         "spaceprop": "\x1E0",
-        "spacefixed": "\x1E1"
+        "spacefixed": "\x1E1",
 
         # Animation
-        ## TODO
+        "anim": _anim,
+
+        # Counters
+        "counter": _counter
     }
 
     def __init__(self, text):
@@ -145,6 +232,7 @@ class Text:
 
     @staticmethod
     def parse(text):
+        # TODO: implement special chars
         text = text.replace("{{", "{").replace("}}", "}")
         return text.format_map(Text.ctrl)
 

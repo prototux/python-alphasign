@@ -16,13 +16,14 @@ Examples are available in examples/ (easy demos starts with `easy_`)
 
 ## TODO
 
-* Implement proper text parsing for special chars and modifiers
+* Implement proper text parsing for special chars
 * Implement features checks (for alpha 2.0 and 3.0 protocols, and sign-specific features)
 * Implement LARGE DOTS, RGB DOTS and ALPHAVISION BULLETIN commands
 * Implement image compression
 * Implement read functions
 * Implement counters and date
-* Fix bug where first image sent isn't shown (it works when image is "created" manually, even if no such thing exists in the documentation)
+* Finish implementing the special functions
+* Create abstraction classes for special functions (time/date, counters, memory config, buzzer, sequence and timetables, hardware functions...)
 
 ## Notes
 

@@ -2,7 +2,17 @@
 class WriteText:
     code = b"A"
 
-    def __init__(self, text, label="A", position="0", mode=b"a"):
+    # Text positions. probably to move
+    class Position:
+        middle_line = b"\x20"
+        top_line = b"\x22"
+        bottom_line = b"\x26"
+        fill = b"\x30"
+        left = b"\x31"
+        right = b"\x32"
+
+
+    def __init__(self, text, label="A", position=Position.fill, mode=b"a"):
         self.text = text
         self.label = label
         self.position = position
@@ -17,7 +27,7 @@ class WriteText:
         bytes = self.label.encode() + b"\x1B"
 
         # Add the position and mode
-        bytes += self.position.encode() + self.mode
+        bytes += self.position + self.mode
 
         # Add the text (special ascii)
         if isinstance(self.text, str):

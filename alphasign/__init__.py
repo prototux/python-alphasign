@@ -16,6 +16,12 @@ Image = Image
 from .easy import Easy
 Easy = Easy
 
+## Packet and command
+from .packet import Packet
+Packet = Packet
+from .command import Command
+Command = Command
+
 # Main Class
 class AlphaSign:
     def __init__(self, type=SignType.All, port=None):
