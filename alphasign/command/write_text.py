@@ -2,7 +2,7 @@
 class WriteText:
     code = b"A"
 
-    def __init__(self, text, label="A", position="0", mode="a"):
+    def __init__(self, text, label="A", position="0", mode=b"a"):
         self.text = text
         self.label = label
         self.position = position
@@ -17,7 +17,7 @@ class WriteText:
         bytes = self.label.encode() + b"\x1B"
 
         # Add the position and mode
-        bytes += self.position.encode() + self.mode.encode()
+        bytes += self.position.encode() + self.mode
 
         # Add the text (special ascii)
         if isinstance(self.text, str):

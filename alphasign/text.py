@@ -1,3 +1,6 @@
+from .packet import Packet
+from .command import Command
+
 class Text:
     # Modes (aka transitions)
     class Mode:
@@ -49,3 +52,106 @@ class Text:
         anim_turbocar     = b"nY" # Car across the sign animation
         anim_balloons     = b"nY" # Balloons animation
         anim_cherry_bomb  = b"nZ" # Cherry bomb animation
+
+     # Format functions
+    @staticmethod
+    def _temperature(type):
+        return {"c": "\x08\x1C", "f": "\x08\x1D"}.get(type, "\x08\x1C") # Screw you american units
+
+    @staticmethod
+    def _date(type):
+        types = {
+            "mmddyy": "\x0B0",
+        }
+
+    # Text control codes
+    ctrl = {
+        # Double high chars
+        "DH": "\x051",
+        "noDH": "\x050",
+
+        # True descenders
+        "TD": "\x061",
+        "noTD": "\x060",
+
+        # Flash
+        "flash": "\x071",
+        "noflash": "\x070",
+
+        # Temperature (only solar series)
+        "temperature": _temperature,
+
+        # No hold speed
+        "nospeed": "\x09",
+
+        # Date
+        "date": _date,
+
+        # New page
+        "np": "\x0C",
+        "nl": "\x0D",
+
+        # Speed control (alpha 2.0 only)
+        ## TODO
+
+        # String/variable
+        ## TODO
+
+        # Wide chars
+        "wide": "\x11",
+        "nowide": "\x12",
+
+        # Time
+        "time": "\x13",
+
+        # Picture
+        ## TODO
+
+        # Speed
+        ## TODO
+
+        # Font
+        ## TODO
+
+        # Colors
+        "red": "\x1C1",
+        "green": "\x1C2",
+        "amber": "\x1C3",
+        "dimred": "\x1C4",
+        "dimgreen": "\x1C5",
+        "brown": "\x1C6",
+        "orange": "\x1C7",
+        "yellow": "\x1C8",
+        "rain1": "\x1C9",
+        "rain2": "\x1CA",
+        "mix": "\x1CB",
+        "auto": "\x1CC",
+        ## RGB TODO
+
+        # Attribute
+        ## TODO
+
+        # Spacing
+        "spaceprop": "\x1E0",
+        "spacefixed": "\x1E1"
+
+        # Animation
+        ## TODO
+    }
+
+    def __init__(self, text):
+        self.text = Text.parse(text)
+        print(self.text.encode())
+
+    @staticmethod
+    def parse(text):
+        text = text.replace("{{", "{").replace("}}", "}")
+        return text.format_map(Text.ctrl)
+
+    def to_bytes(self):
+        return self.text
+
+    def to_packet(self, label="A", position="0", mode=Mode.rotate):
+        packet = Packet()
+        packet.add_command(Command.write_text(self.to_bytes(), label, position, mode))
+        return packet
