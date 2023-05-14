@@ -239,7 +239,7 @@ class Text:
     def to_bytes(self):
         return self.text
 
-    def to_packet(self, label="A", position="0", mode=Mode.rotate):
+    def to_packet(self, label="A", position=b"0", mode=Mode.rotate):
         packet = Packet()
         packet.add_command(Command.write_text(self.to_bytes(), label, position, mode))
         return packet
