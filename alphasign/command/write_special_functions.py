@@ -15,6 +15,7 @@ class WriteSpecialFunctions:
     # Each special function has it's own function here
     def set_time_of_day(self, hours, minutes):
         self.label = b"\x20"
+        self.data = f"{hours:02d}{minutes:02d}".encode()
 
     def set_speaker(self, enabled):
         self.label = b"\x21"
@@ -62,7 +63,7 @@ class WriteSpecialFunctions:
             "monday": b"\x32",
             "tuesday": b"\x33",
             "wednesday": b"\x34",
-            "thurdsay": b"\x35",
+            "thursday": b"\x35",
             "friday": b"\x36",
             "saturday": b"\x37",
         }
@@ -70,7 +71,7 @@ class WriteSpecialFunctions:
 
     def set_time_format(self, format):
         self.label = b"\x27"
-        self.data = "M" if format == "military" else "S"
+        self.data = b"M" if format == "military" else b"S"
 
     def generate_tone(self, type, freq=0, duration=5, repeat=0):
         self.label = b"\x28"
