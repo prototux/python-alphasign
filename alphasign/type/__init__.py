@@ -7,6 +7,7 @@ from .alpha_4200c import Alpha4200C
 class SignType(dict):
     All = All
     Alpha_2X0C = Alpha2X0C
+    Alpha_4200C = Alpha4200C
 
     @staticmethod
     def exists(name):
