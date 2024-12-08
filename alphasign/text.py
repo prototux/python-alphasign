@@ -76,15 +76,25 @@ class Text:
 
     @staticmethod
     def _speed_control(speed):
-        pass
+        # Convert speed value (1-5) to appropriate control code
+        # Speed control is only supported on Alpha 2.0 signs
+        if not isinstance(speed, int) or speed < 1 or speed > 5:
+            return "\x091" # Default to speed 1
+        return f"\x09{speed}"
 
     @staticmethod
     def _string(str):
-        return "\x10"+str
+        # Strings are limited to 32 characters
+        if len(str) > 32:
+            str = str[:32]
+        return "\x10" + str
 
     @staticmethod
     def _picture(picture):
-        return "\x14"+str
+        # Pictures must be A-Z or 0-9
+        if not picture.isalnum() or len(picture) != 1:
+            return "\x14A"  # Default to picture A
+        return "\x14" + picture.upper()
 
     @staticmethod
     def _speed(speed):
