@@ -1,5 +1,7 @@
+from ._common import SignDef
 
-class Alpha2X0C:
+
+class Alpha2X0C(SignDef):
     # Base infos
     name = "Alpha 2X0C"
     desc = "Alpha 210C and 220C"
@@ -16,6 +18,4 @@ class Alpha2X0C:
     default_baudrate = 9600
 
     # Supported features
-    features = [
-        "BEEP"
-    ]
+    features = ["BEEP"]

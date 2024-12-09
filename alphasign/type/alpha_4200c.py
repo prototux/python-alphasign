@@ -1,4 +1,7 @@
-class Alpha4200C:
+from ._common import SignDef
+
+
+class Alpha4200C(SignDef):
     # Base infos
     name = "Alpha 4200C"
     desc = "Alpha 4200C"
